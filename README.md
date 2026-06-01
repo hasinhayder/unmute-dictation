@@ -74,7 +74,7 @@ Grant them in **System Settings → Privacy & Security**.
 | Key | Action |
 |-----|--------|
 | **Fn (Globe)** or **Right Option** | Dictate (configurable in Settings) |
-| **Control** | Instruction — transform text with a voice command |
+| **Caps Lock** | Instruction — transform text with a voice command |
 | Chain them | Dictate, then instruct (or vice-versa) in one go |
 | **Escape** | Cancel the current recording / processing |
 

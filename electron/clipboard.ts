@@ -160,23 +160,10 @@ export async function captureSelectedText(useClipboardFallback: boolean = false)
   }
 }
 
-/**
- * Ensure the output text has a leading and trailing space so it doesn't
- * collide with adjacent words when pasted inline. Skips padding if the
- * text already starts/ends with whitespace.
- */
-function padOutput(text: string): string {
-  if (!text) return text
-  let padded = text
-  if (!/^\s/.test(padded)) padded = ' ' + padded
-  return padded
-}
-
 export async function injectOutput(text: string): Promise<void> {
-  const padded = padOutput(text)
   // Always copy to clipboard first
-  clipboard.writeText(padded)
-  console.log('[clipboard] Output copied to clipboard (padded), length:', padded.length)
+  clipboard.writeText(text)
+  console.log('[clipboard] Output copied to clipboard, length:', text.length)
 
   // Try to simulate Cmd+V to auto-paste
   try {
@@ -190,7 +177,6 @@ export async function injectOutput(text: string): Promise<void> {
 }
 
 export function copyToClipboard(text: string): void {
-  const padded = padOutput(text)
-  clipboard.writeText(padded)
-  console.log('[clipboard] Text copied to clipboard (padded), length:', padded.length)
+  clipboard.writeText(text)
+  console.log('[clipboard] Text copied to clipboard, length:', text.length)
 }

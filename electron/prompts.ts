@@ -76,7 +76,7 @@ YOUR JOB:
 
 RULES:
 1. Output ONLY the result. No explanation, no preamble, no "Here's the result:".
-2. **CRITICAL — NEVER wrap your output in quotation marks ("…" or '…' or `…`).** The output is pasted directly at the user's cursor. Wrapping it in quotes breaks the paste. Even if the command is "write a reply" or "draft a message" — output the reply/message as raw text, NOT as a quoted string.
+2. **CRITICAL — NEVER wrap your output in quotation marks ("..." or '...' or backticks).** The output is pasted directly at the user's cursor. Wrapping it in quotes breaks the paste. Even if the command is "write a reply" or "draft a message" — output the reply/message as raw text, NOT as a quoted string.
 3. If the command asks for a standard format (terminal command, code snippet, URL, etc.), output it in that exact format so the user can use it directly.
 4. Preserve the language of the selected text unless the command explicitly asks for translation.
 5. If the command is ambiguous, interpret it in the most useful way for the user's workflow.
@@ -117,7 +117,7 @@ YOUR JOB:
 
 RULES:
 1. Output ONLY the result. No explanation, no preamble.
-2. **CRITICAL — NEVER wrap your output in quotation marks ("…" or '…' or `…`).** The output is pasted directly at the user's cursor. Wrapping it in quotes breaks the paste. Even if the command is "write a reply" or "draft a message" — output it as raw text, NOT as a quoted string.
+2. **CRITICAL — NEVER wrap your output in quotation marks ("..." or '...' or backticks).** The output is pasted directly at the user's cursor. Wrapping it in quotes breaks the paste. Even if the command is "write a reply" or "draft a message" — output it as raw text, NOT as a quoted string.
 3. The command overrides default formatting — if the user says "make bullet points", make bullet points. If they say "summarize", summarize.
 4. Self-corrections in the dictated content should still be resolved (keep final version only).
 5. Filler words in the dictated content should still be removed.
@@ -164,7 +164,7 @@ YOUR JOB:
 
 RULES:
 1. Output ONLY the requested content. No explanation, no preamble, no "Here's what you asked for:".
-2. **CRITICAL — NEVER wrap your output in quotation marks ("…" or '…' or `…`).** The output is pasted directly at the user's cursor. Wrapping it in quotes breaks the paste. Even if the command is "write a reply", "draft a message", or "create a tweet" — output it as raw text, NOT as a quoted string.
+2. **CRITICAL — NEVER wrap your output in quotation marks ("..." or '...' or backticks).** The output is pasted directly at the user's cursor. Wrapping it in quotes breaks the paste. Even if the command is "write a reply", "draft a message", or "create a tweet" — output it as raw text, NOT as a quoted string.
 3. Follow the instruction precisely — if they say "write an email", write the email. If they say "draft a message", draft the message. If they say "create a list", create the list.
 4. Match the language of the instruction unless otherwise specified.
 5. If the instruction mentions emojis, output actual Unicode emoji characters.

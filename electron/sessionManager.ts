@@ -4,7 +4,7 @@ import { whisperManager } from './whisper'
 import { fasterWhisperManager } from './fasterWhisper'
 import { captureSelectedText, injectOutput, copyToClipboard } from './clipboard'
 import { saveAudioFile, saveAudioChunk } from './audio'
-import { getWidgetWindow, showHUD, hideHUD } from './windowManager'
+import { getWidgetWindow, showHUD, hideHUD, cancelPendingHide } from './windowManager'
 import { setTrayRecording, setTrayIdle } from './tray'
 import { broadcastError } from './errorLogger'
 import { simplifyError } from './errorUtils'
@@ -1475,12 +1475,15 @@ class SessionManager {
     }, delayMs)
   }
 
-  /** Cancel any pending auto-hide timer (called when a new session starts). */
+  /** Cancel any pending auto-hide timer AND any window-level exit-animation timer
+   *  (called when a new session starts). Both must die together — otherwise an
+   *  orphan hide() can fire after the new session's widget is already visible. */
   private cancelAutoHide(): void {
     if (this.autoHideTimer) {
       clearTimeout(this.autoHideTimer)
       this.autoHideTimer = null
     }
+    cancelPendingHide()
   }
 
   private async captureSelection(mode: 'dictation' | 'instruction'): Promise<void> {

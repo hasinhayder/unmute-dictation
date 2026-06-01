@@ -6,10 +6,6 @@ import Foundation
 setbuf(stdout, nil)
 
 var previousModifiers: NSEvent.ModifierFlags = []
-// Track whether Option is currently held (for Option+Space detection)
-var optionHeld = false
-// Track Right Option separately (keyCode 61) for configurable dictation key
-var rightOptionHeld = false
 
 func handleModifierChange(_ event: NSEvent) {
     let mods = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
@@ -34,35 +30,19 @@ func handleModifierChange(_ event: NSEvent) {
         print("CAPS_UP")
     }
 
-    // Right Option key detection (keyCode 61 = Right Option, 58 = Left Option)
-    if event.keyCode == 61 {  // Right Option
+    // Right Option key detection (keyCode 61 = Right Option)
+    if event.keyCode == 61 {
         let hadOption = previousModifiers.contains(.option)
         let hasOption = mods.contains(.option)
         if !hadOption && hasOption {
-            rightOptionHeld = true
             print("RIGHT_OPTION_DOWN")
         }
         if hadOption && !hasOption {
-            rightOptionHeld = false
             print("RIGHT_OPTION_UP")
         }
-    } else if event.keyCode == 58 {  // Left Option released
-        let hadOption = previousModifiers.contains(.option)
-        let hasOption = mods.contains(.option)
-        if hadOption && !hasOption { rightOptionHeld = false }
     }
-
-    // Track Option key state (for Option+Space combo detection)
-    optionHeld = mods.contains(.option)
 
     previousModifiers = mods
-}
-
-func handleKeyDown(_ event: NSEvent) {
-    // Detect Space (keyCode 49) while Option is held → Option+Space combo
-    if event.keyCode == 49 && optionHeld {
-        print("OPTION_SPACE")
-    }
 }
 
 // ─── Stdin command handler ───
@@ -111,8 +91,6 @@ func handleStdinCommand(_ command: String) {
 }
 
 // Read stdin on a background thread so it doesn't block the run loop.
-// Commands are also executed on the background thread (CGEvent doesn't
-// require the main thread, unlike NSAppleScript).
 DispatchQueue.global(qos: .userInteractive).async {
     while let line = readLine() {
         let trimmed = line.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -130,17 +108,6 @@ NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) { event in
 // Also monitor local flagsChanged events (when our app is focused)
 NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { event in
     handleModifierChange(event)
-    return event
-}
-
-// Monitor global keyDown events for Option+Space detection
-NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { event in
-    handleKeyDown(event)
-}
-
-// Also monitor local keyDown events
-NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
-    handleKeyDown(event)
     return event
 }
 

@@ -265,6 +265,41 @@ export default function Settings({ onDictationKeyChange }: SettingsProps = {}) {
             </div>
           </div>
         </div>
+        {/* Offline transcription model — always accessible so users can install/repair from one place */}
+        <div className="px-5 py-4 border-t border-border">
+          <div className="flex items-start gap-3">
+            <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${whisperModelReady ? 'bg-green-100 text-green-700' : 'bg-warm-soft text-warm'}`}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-[13px] font-semibold text-ink">Offline transcription model</p>
+                <span className={`text-[10px] font-bold uppercase tracking-wider ${whisperModelReady ? 'text-green-700' : 'text-ink-35'}`}>
+                  {whisperModelReady ? 'Ready' : whisperDownloading ? 'Downloading' : 'Not installed'}
+                </span>
+              </div>
+              <p className="text-[12px] text-ink-60 leading-relaxed mt-1.5">
+                Lets unmute transcribe on-device when you're offline or want full privacy. Optional — Groq cloud works without this.
+              </p>
+              {!whisperModelReady && (
+                <div className="mt-3 flex items-center gap-3">
+                  {whisperDownloading ? (
+                    <span className="text-[11px] font-medium text-ink-60">
+                      Downloading{whisperProgress > 0 ? ` — ${Math.round(whisperProgress)}%` : '…'}
+                    </span>
+                  ) : (
+                    <button
+                      onClick={handleDownloadWhisper}
+                      className="px-3 py-1.5 rounded-full bg-ink text-white text-[11px] font-semibold hover:opacity-90 transition-opacity"
+                    >
+                      Download model (~75MB)
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Groq API Key */}
@@ -439,7 +474,7 @@ export default function Settings({ onDictationKeyChange }: SettingsProps = {}) {
             </div>
             <div className="flex items-center gap-2.5">
               <MiniWave />
-              <HeroKey variant="red">Control</HeroKey>
+              <HeroKey variant="red">Caps Lock</HeroKey>
             </div>
           </div>
         </div>

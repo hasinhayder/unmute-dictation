@@ -196,17 +196,28 @@ export function createHUDWindow(): BrowserWindow {
   return hudWindow
 }
 
-/** Show the HUD — called when recording starts.
- *  Awaits renderer readiness so the panel never appears blank on cold start. */
-export async function showHUD(): Promise<void> {
-  await hudReadyPromise
-  if (!hudWindow) return
-
-  // Cancel any pending hide animation
+/** Cancel any pending delayed hide (from a prior session's exit animation).
+ *  Called from sessionManager.cancelAutoHide() and from showHUD() (before/after its
+ *  await) so a session restart can't race an orphan hide() into a visible widget. */
+export function cancelPendingHide(): void {
   if (hideTimeout) {
     clearTimeout(hideTimeout)
     hideTimeout = null
   }
+}
+
+/** Show the HUD — called when recording starts.
+ *  Awaits renderer readiness so the panel never appears blank on cold start. */
+export async function showHUD(): Promise<void> {
+  // Kill any pending hide BEFORE awaiting — otherwise the 220ms exit-animation
+  // timer from a prior session could fire during the await and hide our window
+  // immediately after we make it visible.
+  cancelPendingHide()
+  await hudReadyPromise
+  if (!hudWindow) return
+
+  // Re-check in case a hide was scheduled during the await (defense in depth).
+  cancelPendingHide()
 
   // Recalculate position in case display changed
   const bounds = getHUDBounds()

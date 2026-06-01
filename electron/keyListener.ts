@@ -4,7 +4,7 @@ import { app } from 'electron'
 import path from 'path'
 import fs from 'fs'
 
-export type KeyEvent = 'fn-down' | 'fn-up' | 'caps-down' | 'caps-up' | 'right-option-down' | 'right-option-up' | 'option-space'
+export type KeyEvent = 'fn-down' | 'fn-up' | 'caps-down' | 'caps-up' | 'right-option-down' | 'right-option-up'
 
 class KeyListener extends EventEmitter {
   private process: ChildProcess | null = null
@@ -84,9 +84,6 @@ class KeyListener extends EventEmitter {
             break
           case 'RIGHT_OPTION_UP':
             this.emit('key', 'right-option-up' as KeyEvent)
-            break
-          case 'OPTION_SPACE':
-            this.emit('key', 'option-space' as KeyEvent)
             break
           // PASTE_OK / COPY_OK are handled by sendCommand() listeners — ignore here
           case 'PASTE_OK':

@@ -144,7 +144,7 @@ export default function App() {
       <main className="flex-1 pt-10 px-10 overflow-y-auto">
         <div className="max-w-2xl mx-auto pb-8">
           {activeTab === 'history' && <History />}
-          {activeTab === 'voice' && <Voice />}
+          {activeTab === 'voice' && <Voice dictationKey={dictationKey} />}
           {activeTab === 'settings' && <Settings onDictationKeyChange={setDictationKey} />}
           {activeTab === 'privacy' && <Privacy />}
         </div>

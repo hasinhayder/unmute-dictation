@@ -1,4 +1,12 @@
-export default function Voice() {
+type DictationKey = 'fn' | 'right-option'
+
+interface VoiceProps {
+  dictationKey: DictationKey
+}
+
+export default function Voice({ dictationKey }: VoiceProps) {
+  const dictLabel = dictationKey === 'fn' ? 'Fn' : 'Right Opt'
+
   return (
     <div className="max-w-2xl pb-12">
       <h2 className="font-display text-[22px] font-bold text-ink tracking-tight mb-1">Features</h2>
@@ -13,10 +21,10 @@ export default function Voice() {
           No switching apps, no clicking buttons. Just keys.
         </p>
         <div className="flex items-center gap-2 mt-4 flex-wrap relative">
-          <KeyBadgeHero>Fn</KeyBadgeHero>
+          <KeyBadgeHero>{dictLabel}</KeyBadgeHero>
           <span className="text-[11px] text-white/35">dictation</span>
           <span className="text-white/20 mx-1">·</span>
-          <KeyBadgeHero variant="red">Control</KeyBadgeHero>
+          <KeyBadgeHero variant="red">Caps Lock</KeyBadgeHero>
           <span className="text-[11px] text-white/35">instruction</span>
         </div>
       </div>
@@ -27,13 +35,13 @@ export default function Voice() {
         accentColor="ink"
         title="Pure Dictation"
         subtitle="Speak anywhere, text appears at your cursor"
-        trigger={<KeyBadge>Fn</KeyBadge>}
-        description={<>The fastest way to get text into any app — Slack, email, Notion, code editors, anywhere. Tap <strong>Fn</strong> to start, speak naturally, tap again to stop. Your words appear exactly where your cursor is, transcribed in real time.</>}
+        trigger={<KeyBadge>{dictLabel}</KeyBadge>}
+        description={<>The fastest way to get text into any app — Slack, email, Notion, code editors, anywhere. Tap <strong>{dictLabel}</strong> to start, speak naturally, tap again to stop. Your words appear exactly where your cursor is, transcribed in real time.</>}
         steps={[
           'Click into any text field in any app',
-          <><strong>Tap Fn</strong> — the recording pill appears at the top of your screen</>,
+          <><strong>Tap {dictLabel}</strong> — the recording pill appears at the top of your screen</>,
           'Speak naturally at your normal pace',
-          <><strong>Tap Fn again</strong> — text is pasted at your cursor instantly</>,
+          <><strong>Tap {dictLabel} again</strong> — text is pasted at your cursor instantly</>,
         ]}
         example="Hey, just wanted to follow up on that PR I sent over yesterday..."
         tags={['Slack messages', 'Email replies', 'Notion docs', 'Code comments', 'Any text field']}
@@ -45,13 +53,13 @@ export default function Voice() {
         accentColor="accent"
         title="AI Instruction"
         subtitle="Tell the AI what to do — with or without selected text"
-        trigger={<KeyBadge variant="dark">Control</KeyBadge>}
+        trigger={<KeyBadge variant="red">Caps Lock</KeyBadge>}
         description={<>Instead of transcribing your voice, Unmute treats your speech as an instruction to an AI. This is incredibly powerful when combined with text selection — select text first, then speak your command.</>}
         steps={[
           'Select the text you want to work with (or leave nothing selected for a fresh generation)',
-          <><strong>Tap Control</strong> — the pill switches to instruction mode (red)</>,
+          <><strong>Tap Caps Lock</strong> — the pill switches to instruction mode (red)</>,
           'Speak your instruction naturally',
-          <><strong>Tap Control again</strong> — AI output replaces your selection</>,
+          <><strong>Tap Caps Lock again</strong> — AI output replaces your selection</>,
         ]}
         example="Make this more professional and cut it by half"
         tags={['Rewrite text', 'Translate', 'Fix grammar', 'Change tone', 'Generate from scratch']}
@@ -65,21 +73,21 @@ export default function Voice() {
               icon="💬"
               title="Reply & Generate"
               description="Select an email or message, then tell the AI how to reply."
-              example={'Select email → Control → "reply saying I won\'t be able to attend the meeting on Friday"'}
+              example={'Select email → Caps Lock → "reply saying I won\'t be able to attend the meeting on Friday"'}
               result="AI generates a complete, polished reply based on the context."
             />
             <SubWorkflow
               icon="✏️"
               title="Edit in Place"
               description="Select text and ask the AI to make specific changes."
-              example='Select paragraph → Control → "change the date to next Friday and make it shorter"'
+              example='Select paragraph → Caps Lock → "change the date to next Friday and make it shorter"'
               result="AI edits the selected text with your requested changes."
             />
             <SubWorkflow
               icon="📝"
               title="Quote & Discuss"
-              description="Select text, then press Fn to dictate a response below it."
-              example='Select a code review comment → Fn → "I agree, let me refactor that section"'
+              description={`Select text, then press ${dictLabel} to dictate a response below it.`}
+              example={`Select a code review comment → ${dictLabel} → "I agree, let me refactor that section"`}
               result="Your dictation appears below the selected text as a contextual reply."
             />
           </div>
@@ -94,17 +102,17 @@ export default function Voice() {
         subtitle="Speak your thought, then shape it with AI — in one flow"
         trigger={
           <div className="flex items-center gap-1.5">
-            <KeyBadge>Fn</KeyBadge>
+            <KeyBadge>{dictLabel}</KeyBadge>
             <span className="text-[10px] text-ink-35">→</span>
-            <KeyBadge variant="dark">Ctrl</KeyBadge>
+            <KeyBadge variant="red">Caps Lock</KeyBadge>
           </div>
         }
-        description={<>The most powerful mode. Dictate a rough thought with <strong>Fn</strong>, then immediately tap <strong>Control</strong> and tell the AI how to shape it. Your raw voice becomes polished output in one breath.</>}
+        description={<>The most powerful mode. Dictate a rough thought with <strong>{dictLabel}</strong>, then immediately tap <strong>Caps Lock</strong> and tell the AI how to shape it. Your raw voice becomes polished output in one breath.</>}
         steps={[
-          <><strong>Tap Fn</strong> and speak your raw thought quickly and naturally</>,
-          <><strong>Tap Fn again</strong> — you have a short window to trigger the next step</>,
-          <><strong>Tap Control</strong> immediately and speak your instruction</>,
-          <><strong>Tap Control again</strong> — AI takes your dictation as input and applies your instruction</>,
+          <><strong>Tap {dictLabel}</strong> and speak your raw thought quickly and naturally</>,
+          <><strong>Tap {dictLabel} again</strong> — you have a short window to trigger the next step</>,
+          <><strong>Tap Caps Lock</strong> immediately and speak your instruction</>,
+          <><strong>Tap Caps Lock again</strong> — AI takes your dictation as input and applies your instruction</>,
         ]}
         example="i need to tell sarah we cant ship friday... → make this a polite professional Slack message"
         tags={['Draft + polish in one flow', 'Brain dump → clean output', 'Fastest writing mode']}
@@ -273,7 +281,7 @@ function KeyBadgeHero({ children, variant }: { children: React.ReactNode; varian
   }
   return (
     <span className={`${base} bg-gradient-to-b from-white/[0.14] to-white/[0.06] text-white/90 border border-white/16 shadow-[0_4px_0_rgba(0,0,0,0.45),0_6px_14px_rgba(0,0,0,0.30),inset_0_1px_0_rgba(255,255,255,0.18)]`}>
-      {children}
+        {children}
     </span>
   )
 }

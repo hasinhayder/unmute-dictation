@@ -137,7 +137,6 @@ export function createTray(): void {
   ])
 
   tray.setContextMenu(contextMenu)
-  tray.on('click', () => showMainWindow())
 }
 
 /** Start pulsing animation on the tray icon */

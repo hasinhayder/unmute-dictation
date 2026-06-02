@@ -89,9 +89,12 @@ export function createMainWindow(): BrowserWindow {
 }
 
 export function showMainWindow(): void {
-  if (mainWindow) {
+  if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.show()
     mainWindow.focus()
+  } else {
+    createMainWindow()
+    createWidgetWindow()
   }
 }
 
